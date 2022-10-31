@@ -33,7 +33,7 @@ p.xaxis.major_label_text_color = None
 
 def setcolor(attr, old, new): # initial color setting
     color_picker.visible = False
-    warpA = p.segment(x0=range(0, 120, 4), y0=[warpdefault0] * 60, x1=range(a, (a + 120), 4), y1=[warpdefault1] * 60,
+    warpA = p.segment(x0=list(range(0, 120, 4)), y0=[warpdefault0] * 60, x1=list(range(a, (a + 120), 4)), y1=[warpdefault1] * 60,
                       color=color_picker.color, line_width=linewidth)
 
 
@@ -41,9 +41,9 @@ color_picker.on_change('color', setcolor) # trigger initial color setting
 
 
 # MAIN WARPS normal and alternating position + tiny lower warp part viisble
-warpB = p.segment(x0=range(0, 120, 4), y0=[warpdefault0] * 60, x1=range(b, (b + 120), 4), y1=[warpdefault1] * 60, color=black, line_width=linewidth)
-warpB2 = p.segment(x0=range(0, 120, 4), y0=[warpdefault0] * 60, x1=range(b2, (b2 + 120), 4), y1=[warpdefault1] * 60, color=black, line_width=linewidth)
-WARPA = p.segment(x0=range(0, 120, 4), y0=[warpdefault0] * 60, x1=range(a, (a + 120), 4), y1=[warpdefault1] * 60, color=color_picker.color, line_width=linewidth)
+warpB = p.segment(x0=list(range(0, 120, 4)), y0=[warpdefault0] * 60, x1=list(range(b, (b + 120), 4)), y1=[warpdefault1] * 60, color=black, line_width=linewidth)
+warpB2 = p.segment(x0=list(range(0, 120, 4)), y0=[warpdefault0] * 60, x1=list(range(b2, (b2 + 120), 4)), y1=[warpdefault1] * 60, color=black, line_width=linewidth)
+WARPA = p.segment(x0=list(range(0, 120, 4)), y0=[warpdefault0] * 60, x1=list(range(a, (a + 120), 4)), y1=[warpdefault1] * 60, color=color_picker.color, line_width=linewidth)
 warpB.visible = True
 warpB2.visible = False
 WARPA.visible = False
@@ -55,7 +55,7 @@ def weave_pink(attr, old, new):
     if Y0A < 56:
         Y0A += 2
         Y1A = Y0A + 1
-        p.segment(x0=range(0, 120, 4), y0=[Y0A] * 60, x1=range(a, (a + 120), 4), y1=[Y1A] * 60, color=color_picker.color,
+        p.segment(x0=list(range(0, 120, 4)), y0=[Y0A] * 60, x1=list(range(a, (a + 120), 4)), y1=[Y1A] * 60, color=color_picker.color,
                   line_width=linewidth * 1.8)
     if n >= 56:
         return
@@ -69,7 +69,7 @@ def weave_black(attr, old, new):
         Y0B += 2
         Y1B = Y0B + 1
         if Y0B != -0.5:
-            p.segment(x0=range(0, 120, 4), y0=[Y0B] * 60, x1=range(a, (a + 120), 4), y1=[Y1B] * 60, color=black,
+            p.segment(x0=list(range(0, 120, 4)), y0=[Y0B] * 60, x1=list(range(a, (a + 120), 4)), y1=[Y1B] * 60, color=black,
                       line_width=linewidth * 1.8)
     if Y0B >= 56:
         textbox.title ='Your text_ile is done. Please save it with the floppy icon to your desktop'
@@ -98,7 +98,7 @@ def weftmove1(attr, old, new): # weft grows one line to the left
     global n
     if n < 60:
         n += 1
-        p.step([weft2, weft1] * n, range((n-2), n), line_width=linewidth * 1.5, mode="after", color='#545454')
+        p.step([weft2, weft1] * n, list(range((n-2), n)), line_width=linewidth * 1.5, mode="after", color='#545454')
     if n >= 60:
         return
 
@@ -107,9 +107,9 @@ def weftmove2(attr, old, new): # weft grows one line to the right
     global n
     if n < 60:
         n += 1
-        p.step([weft1, weft2] * n, range((n-2), n), line_width=linewidth * 1.5, mode="after", color='#545454')
+        p.step([weft1, weft2] * n, list(range((n-2), n)), line_width=linewidth * 1.5, mode="after", color='#545454')
     if n == 2:
-        p.segment(x0=range(0, 120, 4), y0=[warpdefault0] * 60, x1=range(a, (a + 120), 4), y1=0.008 * 60, color=color_picker.color,
+        p.segment(x0=list(range(0, 120, 4)), y0=[warpdefault0] * 60, x1=list(range(a, (a + 120), 4)), y1=0.008 * 60, color=color_picker.color,
                   line_width=linewidth)
     if n >= 60:
         return
