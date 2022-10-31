@@ -6,8 +6,6 @@ from bokeh.models import TextInput, ColorPicker, Text
 
 
 # set a stage and general properties
-# mod:maxigas
-# p = figure(plot_width=400, plot_height=800, tools='save')
 p = figure(width=400, height=800, tools='save')
 linewidth=3.5 # warp and weft properties
 a = 0 # top position warpA
