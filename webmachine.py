@@ -148,7 +148,7 @@ def patterncolor(attr, old, new): # create pattern color
     global zenx
     if zeny < 56:
         zeny += 1
-    p.oval(x=zenx, y=zeny, width=2, height=1, angle=0, color=color_picker.color)
+    p.ellipse(x=zenx, y=zeny, width=2, height=1, angle=0, color=color_picker.color)
     if n >= 56:
         return
 
@@ -158,7 +158,7 @@ def patternblack(attr, old, new): # create pattern black
     global zenx
     if zeny < 56:
         zeny += 1
-    p.oval(x=zenx, y=zeny, width=2, height=1, angle=0, color=black)
+    p.ellipse(x=zenx, y=zeny, width=2, height=1, angle=0, color=black)
     if n >= 56:
         return
 
