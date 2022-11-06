@@ -6,7 +6,7 @@ from bokeh.models import TextInput, ColorPicker, Text
 
 
 # set a stage and general properties
-p = figure(width=400, height=800, tools='save')
+p = figure(width=400, height=800, tools='')
 linewidth=3.5 # warp and weft properties
 a = 0 # top position warpA
 b = 1 # top left position warpB
@@ -22,7 +22,6 @@ Y1B = Y0B + 1.5 # pattern position
 weft1=-2
 weft2=118
 n=1 # n should be the number of times that weft y has changed
-zen=1
 p.xgrid.grid_line_color = None
 p.ygrid.grid_line_color = None
 p.yaxis.major_label_text_color = None
@@ -30,6 +29,7 @@ p.xaxis.major_label_text_color = None
 
 
 def setcolor(attr, old, new): # initial color setting
+    global a
     color_picker.visible = False
     warpA = p.segment(x0=list(range(0, 120, 4)), y0=[warpdefault0] * 30, x1=list(range(a, (a + 120), 4)), y1=[warpdefault1] * 30,
                       color=color_picker.color, line_width=linewidth)
@@ -49,6 +49,7 @@ WARPA.visible = False
 
 # colored lines already woven
 def weave_pink(attr, old, new):
+    global a
     global Y0A
     if Y0A < 56:
         Y0A += 2
@@ -61,6 +62,7 @@ def weave_pink(attr, old, new):
 
 # black lines already woven
 def weave_black(attr, old, new):
+    global a
     global Y0B
     global textbox
     if Y0B < 56:
@@ -74,7 +76,8 @@ def weave_black(attr, old, new):
         return
 
 
-textbox = TextInput(value="", title='Please click into the textbox to start typing') # text input glyph
+# textbox = TextInput(value="", title='Please click into the textbox to start typing') # text input glyph
+textbox = TextInput(value="", title='') # text input glyph
 
 
 def weave(attr, old, new): # black warps exchange visibility, weft moves up, weaving is created
@@ -103,6 +106,7 @@ def weftmove1(attr, old, new): # weft grows one line to the left
 
 def weftmove2(attr, old, new): # weft grows one line to the right
     global n
+    global a
     if n < 60:
         n += 1
         p.step([weft1, weft2] * n, list(range((n-2), n)), line_width=linewidth * 1.5, mode="after", color='#545454')
@@ -119,7 +123,7 @@ zenx = 4 # pattern parameter
 
 def update(attr, old, new): # update weaving, pattern, limit input char range and initialize colored warp
     for char in textbox.value_input:
-        print(ord(char))
+        print("textbox.value_input = ", ord(char))
     if ord(char) > 97 and ord(char) < 122 or ord(char) >= 44 and ord(char) <= 46:
         if WARPA.visible == False:
             WARPA.visible = True
@@ -138,7 +142,7 @@ def thetrick(attr, old, new): # create pattern according to char input
         elif char == '.': zenx = 116
         elif char == ',': zenx = 0
         else: zenx = (ord(char)-97) * 4
-        print(zenx)
+        print("zenx = ", zenx)
 
 
 def patterncolor(attr, old, new): # create pattern color
@@ -146,6 +150,7 @@ def patterncolor(attr, old, new): # create pattern color
     global zenx
     if zeny < 56:
         zeny += 1
+    # print("patterncolor -> p.ellipse = (x=", zenx, " y=", zeny, ")")
     p.ellipse(x=zenx, y=zeny, width=2, height=1, angle=0, color=color_picker.color)
     if n >= 56:
         return
@@ -156,6 +161,7 @@ def patternblack(attr, old, new): # create pattern black
     global zenx
     if zeny < 56:
         zeny += 1
+    # print("patternblack() -> p.ellipse = (x=", zenx, " y=", zeny, ")")
     p.ellipse(x=zenx, y=zeny, width=2, height=1, angle=0, color=black)
     if n >= 56:
         return
@@ -163,6 +169,11 @@ def patternblack(attr, old, new): # create pattern black
 
 textbox.on_change('value_input', update) # each time a character hit, update is executed
 
+p.xaxis.visible = False
+p.yaxis.visible = False
+p.min_border = 0 
 curdoc().add_root(column(textbox, p, color_picker)) # Document setup
 
 # Run it like this: bokeh serve --show webmachine.py OR on server: bokeh serve webmachine.py
+
+# Invocation in production: sudo bokeh serve --port 80 --address 0.0.0.0 --log-level debug --log-file /var/log/webmachine.log --allow-websocket-origin=webmachine.pagekite.me /home/webmachine/webmachine/webmachine.py
